@@ -82,7 +82,7 @@ function convert(scene, trace) {
 
 proto.update = function(data) {
     this.data = data;
-    this.mesh.update(convert(trace));
+    this.mesh.update(convert(this.scene, data));
 };
 
 proto.dispose = function() {
