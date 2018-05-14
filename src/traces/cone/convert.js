@@ -80,9 +80,9 @@ function convert(scene, trace) {
     return meshData;
 };
 
-proto.update = function(trace) {
-    var meshData = convert(trace);
-    this.mesh.update(meshData);
+proto.update = function(data) {
+    this.data = data;
+    this.mesh.update(convert(trace));
 };
 
 proto.dispose = function() {
@@ -90,12 +90,13 @@ proto.dispose = function() {
     this.mesh.dispose();
 };
 
-function createMesh3DTrace(scene, trace) {
+function createMesh3DTrace(scene, data) {
     var gl = scene.glplot.gl;
-    var meshData = convert(scene, trace);
+    var meshData = convert(scene, data);
     var mesh = createMesh(gl, meshData);
     var result = new Mesh3DTrace(scene, mesh, data.uid);
 
+    result.data = data;
     mesh._trace = result;
     scene.glplot.add(mesh);
 
