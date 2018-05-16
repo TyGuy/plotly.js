@@ -16,14 +16,12 @@ var Colorscale = require('../../components/colorscale');
 var drawColorbar = require('../../components/colorbar/draw');
 
 module.exports = function colorbar(gd, cd) {
-    var trace = cd[0].trace,
-        cbId = 'cb' + trace.uid,
-        cmin = trace.cmin,
-        cmax = trace.cmax,
-        vals = trace.intensity || [];
+    var trace = cd[0].trace;
+    var cbId = 'cb' + trace.uid;
+    var cmin = trace.cmin;
+    var cmax = trace.cmax;
 
-    if(!isNumeric(cmin)) cmin = Lib.aggNums(Math.min, null, vals);
-    if(!isNumeric(cmax)) cmax = Lib.aggNums(Math.max, null, vals);
+    console.log(cmin, cmax)
 
     gd._fullLayout._infolayer.selectAll('.' + cbId).remove();
 
@@ -34,12 +32,8 @@ module.exports = function colorbar(gd, cd) {
 
     var cb = cd[0].t.cb = drawColorbar(gd, cbId);
     var sclFunc = Colorscale.makeColorScaleFunc(
-        Colorscale.extractScale(
-            trace.colorscale,
-            cmin,
-            cmax
-        ),
-        { noNumericCheck: true }
+        Colorscale.extractScale(trace.colorscale, cmin, cmax),
+        {noNumericCheck: true}
     );
 
     cb.fillcolor(sclFunc)
